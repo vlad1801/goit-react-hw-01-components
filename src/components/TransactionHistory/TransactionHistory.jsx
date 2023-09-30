@@ -1,47 +1,43 @@
-import css from './TransactionHistory.module.css';
 import PropTypes from 'prop-types';
+
+import {
+  TData,
+  THeader,
+  TRow,
+  Transactstory,
+} from './TransactionHistory.styled';
+
 export const TransactionHistory = ({ items }) => {
-  const groupedData = items.reduce((acc, item) => {
-    if (!acc[item.type]) {
-      acc[item.type] = [];
-    }
-    acc[item.type].push(item);
-    return acc;
-  }, {});
-
-  console.log(groupedData);
-  const newArr = Object.values(groupedData).flat(1);
-
   return (
-    <table className={css.transactionHhistory}>
+    <Transactstory>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Amount</th>
-          <th>Currency</th>
+          <THeader>Type</THeader>
+          <THeader>Amount</THeader>
+          <THeader>Currency</THeader>
         </tr>
       </thead>
+
       <tbody>
-        {newArr.map(({ id, type, amount, currency }) => {
-          return (
-            <tr key={id}>
-              <td>{type}</td>
-              <td>{amount}</td>
-              <td>{currency}</td>
-            </tr>
-          );
-        })}
+        {items.map(({ id, type, amount, currency }) => (
+          <TRow key={id}>
+            <TData>{type}</TData>
+            <TData>{amount}</TData>
+            <TData>{currency}</TData>
+          </TRow>
+        ))}
       </tbody>
-    </table>
+    </Transactstory>
   );
 };
+
 TransactionHistory.propTypes = {
   items: PropTypes.arrayOf(
-    PropTypes.shape({
+    PropTypes.exact({
       id: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
       amount: PropTypes.string.isRequired,
       currency: PropTypes.string.isRequired,
     })
-  ),
+  ).isRequired,
 };

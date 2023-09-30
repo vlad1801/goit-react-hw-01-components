@@ -1,40 +1,40 @@
-import css from './Statistics.module.css';
 import PropTypes from 'prop-types';
+
+import {
+  LabelStat,
+  Title,
+  StatList,
+  ListItem,
+  Percentage,
+  Statistic,
+} from './Statistics.styled';
+
+import { randomColor } from './randomColor';
+
 export const Statistics = ({ title, stats }) => {
-  const newStats = stats.reduce((acc, item) => {
-    if (!acc[item.label]) {
-      acc[item.label] = { label: item.label, percentage: 0 };
-    }
-    acc[item.label].percentage += item.percentage;
-    console.log(acc);
-    return acc;
-  }, {});
-
-  const newArr = Object.values(newStats);
   return (
-    <section className={css.statistics}>
-      {title && <h2 className={css.title}>{title}</h2>}
+    <Statistic>
+      {title && <Title>{title}</Title>}
 
-      <ul className={css.statList}>
-        {newArr.map(item => {
-          return (
-            <li key={item.label} className={css.item}>
-              <span className={css.label}>{item.label}</span>
-              <span className={css.percentage}>{item.percentage}%</span>
-            </li>
-          );
-        })}
-      </ul>
-    </section>
+      <StatList>
+        {stats.map(sts => (
+          <ListItem key={sts.id} style={{ backgroundColor: randomColor() }}>
+            <LabelStat>{sts.label}</LabelStat>
+            <Percentage>{sts.percentage}%</Percentage>
+          </ListItem>
+        ))}
+      </StatList>
+    </Statistic>
   );
 };
+
 Statistics.propTypes = {
   title: PropTypes.string,
   stats: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      label: PropTypes.string,
-      percentage: PropTypes.number,
+    PropTypes.exact({
+      id: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      percentage: PropTypes.number.isRequired,
     })
-  ),
+  ).isRequired,
 };
