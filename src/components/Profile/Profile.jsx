@@ -1,52 +1,45 @@
-import PropTypes from 'prop-types';
-import {
-  Avatar,
-  Description,
-  Label,
-  List,
-  Name,
-  Paragr,
-  Profiles,
-  Quantity,
-  Stats,
-} from './Profile.styled';
+import css from './ProfileStyles.module.css';
+import PropTypes from 'prop-types'
 
-export const Profile = ({ username, tag, location, avatar, stats }) => {
+const Profile = ({imageUrl, userName, userTag, userLocation, stats}) => {
   return (
-    <Profiles>
-      <Description>
-        <Avatar src={avatar} alt="User avatar" />
-        <Name>{username}</Name>
-        <Paragr>{tag}</Paragr>
-        <Paragr>{location}</Paragr>
-      </Description>
+    <div className={css.profile}>
+      <div className={css.description}>
+        <img
+          src={imageUrl}
+          alt={userName}
+          className={css.avatar}
+        />
+        <p className={`${css.nullStyles} ${css.cardTitle}`}>{userName}</p>
+        <p className={`${css.nullStyles} ${css.cardParagraph}`}>@{userTag}</p>
+        <p className={`${css.nullStyles} ${css.cardParagraph}`}>{userLocation}</p>
+      </div>
 
-      <Stats>
-        <List>
-          <Label>Followers</Label>
-          <Quantity>{stats.followers}</Quantity>
-        </List>
-        <List>
-          <Label>Views</Label>
-          <Quantity>{stats.views}</Quantity>
-        </List>
-        <List>
-          <Label>Likes</Label>
-          <Quantity>{stats.likes}</Quantity>
-        </List>
-      </Stats>
-    </Profiles>
+      <ul className={`${css.nullStyles} ${css.list}`}>
+        <li className={css.listItem}>
+          <span className={css.stats}>Followers</span>
+          <span className={css.statsAmount}>{stats.followers}</span>
+        </li>
+        <li className={css.listItem}>
+          <span className={css.stats}>Views</span>
+          <span className={css.statsAmount}>{stats.views}</span>
+        </li>
+        <li className={css.listItem}>
+          <span className={css.stats}>Likes</span>
+          <span className={css.statsAmount}>{stats.likes}</span>
+        </li>
+      </ul>
+    </div>
   );
 };
 
 Profile.propTypes = {
-  username: PropTypes.string.isRequired,
-  tag: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired,
-  avatar: PropTypes.string.isRequired,
-  stats: PropTypes.exact({
-    followers: PropTypes.number.isRequired,
-    views: PropTypes.number.isRequired,
-    likes: PropTypes.number.isRequired,
-  }).isRequired,
-};
+  imageUrl: PropTypes.string.isRequired,
+  userName: PropTypes.string.isRequired,
+  userTag: PropTypes.string.isRequired,
+  userLocation: PropTypes.string.isRequired,
+  stats: PropTypes.object.isRequired
+}
+
+
+export default Profile
